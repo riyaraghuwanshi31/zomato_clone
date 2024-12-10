@@ -1,0 +1,185 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+.registration-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.registration-container {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+  margin-bottom: 1rem;
+  font-size: 24px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+input[type="text"],
+select {
+  padding: 10px;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* State and City in a Single Row */
+.state-city-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.state-city-container select {
+  flex: 1;
+}
+
+/* Pincode field */
+input[type="text"].pincode {
+  width: 100%;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.checkbox-container input {
+  margin-right: 8px;
+}
+
+.checkbox-container label {
+  font-size: 14px;
+}
+
+.terms-link {
+  color: #ff5757;
+  text-decoration: none;
+}
+
+.terms-link:hover {
+  text-decoration: underline;
+}
+
+button.btnD {
+  width: 16%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #e10d0d; /* Green background */
+  color: #fff;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+
+button.btnD:hover {
+  background-color: #711616; /* Darker green on hover */
+}
+
+div input + button {
+  margin-left: 10px;
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: #007bff; /* Blue background */
+  color: #fff;
+  font-size: 14px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+div input + button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+
+.emailOtp{
+  width: 75%;
+}
+
+.create-account-btn {
+  padding: 10px;
+  background-color: blue;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.create-account-btn:disabled {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
+}
+
+.or-divider {
+  text-align: center;
+  margin: 1rem 0;
+  font-size: 14px;
+  color: #888;
+}
+
+.google-btn {
+  padding: 10px;
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.google-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.login-text {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 14px;
+}
+
+.login-text a {
+  color: #ff5757;
+  text-decoration: none;
+}
+
+.login-text a:hover {
+  text-decoration: underline;
+}
+
+/* Success/Error message styling */
+.message {
+  padding: 10px;
+  margin-top: 1rem;
+  text-align: center;
+  border-radius: 4px;
+}
+
+.message.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}

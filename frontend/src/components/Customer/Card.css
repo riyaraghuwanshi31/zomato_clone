@@ -1,0 +1,12 @@
+.card img {
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  .card h3 {
+    font-size: 18px;
+    color: #333;
+    margin-top: 10px;
+  }
+  

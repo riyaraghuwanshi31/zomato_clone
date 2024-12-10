@@ -1,0 +1,88 @@
+.login-container {
+    width: 300px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+    text-align: left;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #ea4553;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #e84118;
+}
+
+.create-account-text {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.create-account-text a {
+    color: #ff4757;
+    text-decoration: none;
+}
+
+.create-account-text a:hover {
+    text-decoration: underline;
+}
+
+.message {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.message.success {
+    color: #2ecc71;
+}
+
+.message.error {
+    color: #e74c3c;
+}
+
+.line{
+    height: 1px;
+    background-color: #c7c5c5;
+    margin: 20px 0px;
+}
+
+.loginBtn{
+    background-color: #e74c3c;
+    width: 100%;
+    margin: 10px 0px;
+}
+
+.loginBtn:hover{
+    background-color: #b13b2d;
+}

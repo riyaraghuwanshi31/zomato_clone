@@ -1,0 +1,62 @@
+.App {
+    font-family: Arial, sans-serif;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header .logo img {
+    height: 40px;
+}
+
+.search-bar input {
+    padding: 10px;
+    width: 300px;
+    margin-right: 10px;
+}
+
+.search-bar button {
+    padding: 10px;
+    background-color: #f60;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.auth-links a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #333;
+}
+
+.inspiration {
+    text-align: center;
+    margin: 40px 0;
+}
+
+.card-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.card {
+    width: 150px;
+    margin: 10px;
+    text-align: center;
+}
+
+.card img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.card h3 {
+    margin-top: 10px;
+    font-size: 18px;
+}
