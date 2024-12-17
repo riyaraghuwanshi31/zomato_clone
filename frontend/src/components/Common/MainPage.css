@@ -1,0 +1,336 @@
+/* Header  */
+.headerC {
+    background-image: url("/images/mainBg.avif");
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    padding: 0px 0px;
+    background-color: #ffffff;
+   
+}
+
+.headerUC {
+    display: flex;
+    width: 95%;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.logoC {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 10px;
+    color: white;
+}
+
+
+.headerUC nav {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1px;
+}
+
+.headerUC nav a {
+    padding: 0 10px;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+}
+
+/* Hamburger menu */
+.hamburgerC {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.hamburgerC div {
+    background-color: rgb(255, 255, 255);
+    height: 3px;
+    width: 100%;
+    border-radius: 3px;
+
+}
+
+/* Navigation links (hidden for small screens) */
+.nav-links {
+    display: flex;
+    transition: transform 0.3s ease;
+}
+
+.nav-links.show {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 10;
+}
+
+.nav-links a {
+    color: rgb(255, 253, 253);
+    padding: 0px 0;
+    text-align: center;
+    width: 120px;
+    /* border-bottom: 1px solid #ddd; */
+    font-size: 12px;
+}
+
+.nav-links a:last-child {
+    border-bottom: none;
+}
+
+/* Media query for small screens */
+@media screen and (max-width: 768px) {
+    .nav-links {
+        display: none;
+        /* Hidden by default for small screens */
+    }
+
+    .nav-links.show {
+        display: flex;
+        /* Shown when the menu is toggled */
+    }
+
+    .nav-links a {
+        color: black;
+    }
+
+    .hamburgerC {
+        display: flex;
+        padding: 10px;
+        width: 20px;
+        height: 15px;
+    }
+}
+
+
+
+/* Search bar */
+.search-barC {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 13%;
+}
+
+
+.footerC {
+    background-color: #f5f5f5;
+    padding: 10px;
+
+}
+
+.footContC {
+    width: 70%;
+    margin: 0% 12%;
+}
+
+.searchC {
+    width: 100%;
+}
+
+.searchC input {
+    padding: 10px;
+    width: 45%;
+}
+
+
+.logoImgC img {
+    width: 23%;
+    margin-top: 2%;
+    margin-bottom: 1%;
+}
+
+.search-barC h2 {
+    color: white;
+    margin-top: 0;
+    font-weight: 200;
+    letter-spacing: 0.2;
+    text-align: center;
+    font-size: 35px;
+}
+
+/* Cards Section */
+.cardContC {
+    text-decoration: none;
+
+}
+
+.cards-sectionC,
+.collections {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.cardC img {
+    border-radius: 12px;
+    height: 45%;
+}
+
+.cards-sectionC {
+    display: flex;
+    justify-content: space-around;
+    padding: 6% 5%;
+    gap: 2px;
+    /* Adds space between cards */
+    flex-wrap: wrap;
+    /* Ensures cards wrap on smaller screens */
+    margin: 0 10%;
+}
+
+.cardC {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    text-align: left;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Adds a subtle shadow */
+    border-radius: 12px;
+    overflow: hidden;
+    max-width: 300px;
+    /* Restricts card width */
+    padding: 0px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* Adds hover effects */
+}
+
+.cardC:hover {
+    transform: translateY(-5px);
+    /* Moves card slightly up on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    /* Enhances shadow on hover */
+}
+
+.cardC img {
+    border-radius: 12px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    height: 150px;
+    /* Adjusts image height */
+    width: 100%;
+    /* Ensures image fits card width */
+    object-fit: cover;
+    /* Ensures images maintain aspect ratio */
+    margin-bottom: 0px;
+    /* Space between image and text */
+}
+
+.cardC h3 {
+    margin-top: 10px;
+    font-size: 18px;
+    color: #333;
+    margin: 0;
+    padding-left: 10px;
+}
+
+.cardC p {
+    font-size: 12px;
+    color: #777;
+    margin: 0;
+    margin-bottom: 15px;
+    padding-left: 10px;
+}
+
+/* Footer section */
+.footerC {
+    background-color: #f8f8f8;
+    padding: 20px 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+    border-top: 1px solid #e2e2e2;
+}
+
+.footer-linksC {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.footer-linksC div {
+    flex: 1;
+    margin: 0 10px;
+    min-width: 150px;
+    /* Ensures proper spacing on smaller screens */
+}
+
+.footer-linksC h3 {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.footer-linksC a {
+    display: block;
+    color: #666;
+    font-size: 12px;
+    margin-bottom: 2px;
+    text-decoration: none;
+}
+
+.footer-linksC a:hover {
+    color: #000;
+}
+
+.footerC p {
+    text-align: center;
+    font-size: 12px;
+    color: #999;
+    margin-top: 20px;
+    border-top: 1px solid #e2e2e2;
+    padding-top: 20px;
+}
+
+.footerC .footer-linksC .social-linksC {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footerC .social-linksC img {
+    width: 120px;
+}
+
+.footerC .footer-linksC .dropdowns {
+    display: flex;
+    gap: 10px;
+}
+
+.footerC .footer-linksC .dropdown {
+    display: flex;
+    align-items: center;
+    border: 1px solid #e2e2e2;
+    border-radius: 6px;
+    padding: 5px 10px;
+    background-color: white;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.footLogoC img {
+    width: 9%;
+}
+
+.socialC {
+    display: flex;
+}
+
+.iconSC {
+    margin: 0px 2px;
+
+}
+
+.social-linksC h3 {
+    padding-left: 15px;
+}

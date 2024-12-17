@@ -1,0 +1,217 @@
+
+
+
+/* Header section */
+.headerR {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between;
+    align-items: center; */
+    height: 75vh;
+    background-image: url('/images/restaurantbg.jpeg');
+    background-repeat: no-repeat;
+    background-size:cover;
+   
+}   
+
+.headContR{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid rgb(145, 139, 139);
+    padding: 1% 2.5%;
+    width: 95%;
+}
+
+
+
+.restHL{
+    display: flex;
+    width: 500px;
+}
+
+.logoR{
+    align-items: center;
+    text-align: center;
+   
+}
+
+.logoR img{
+   height: 30px;
+}
+
+.logoR p{
+    margin: 0;
+   padding: 0;
+    font-size: 7px;
+    color: white;
+
+}
+ 
+.contactR{
+    color: white;
+    padding: 12px;
+}
+
+.contactR span {
+    color: #ffffff;
+}
+
+.login-buttonR {
+    background: none;
+    border: 1px solid #ffffff;
+    color: #ffffff;
+    padding: 0 25px;
+    height: 40px;
+    cursor: pointer;
+    border-radius: 25px;
+    margin: 5px 25px;
+}
+
+/* Hero section */
+.heroR {
+    display: flex;
+    padding: 2rem 0rem;
+    background: #f9f9f900;
+    text-align: center;
+    width: 100%;  
+} 
+
+.hero-contentR {
+    width: 90%;
+    margin: auto;
+}
+
+.hero-contentR p{
+    color: rgb(80, 78, 78);
+}
+
+.register-buttonR {
+    background: #566afe;
+    color: #fff;
+    border: none;
+    padding: 0.6rem 5rem;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.info-cardR {
+    /* margin-top: 2rem;
+    background: #fff;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    display: flex;
+    width: 60%;
+    margin: auto; */
+    position: relative;
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 70%;
+    margin: -6rem auto 2rem;
+    z-index: 2;
+    top: 170px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    text-align: left;
+    border: 1px solid rgb(223, 218, 218);
+}
+
+.infoContR{
+    display: flex
+}
+
+.info-cardR h3{
+    margin: 0;
+    padding: 2px 0px;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.info-cardR p{
+    font-size: 11px;
+    margin: 0;
+    padding: 0;
+}
+
+.info-cardR ul li{
+   list-style: none;
+   padding: 10px;
+   font-size: 15px;
+}
+
+.videoR{
+  height: 200px; 
+  width: 250px; 
+  border-radius: 10px;
+}
+
+.videoR video{
+    width: 250px;
+    height: 140px;
+    border-radius: 10px;
+    margin-top: 30px;
+}
+
+/*Partner SECTION*/
+.why-partnerR {
+    
+    padding: 2rem;
+    background-image: url(/images/rest_bg_lower.jpeg);
+    background-size: contain;
+    /* background: #fff; */
+    text-align: center;
+    padding-top: 10%;
+    text-align: center;
+    margin: auto;
+    width: 90%;
+    align-items: center;
+}
+
+.why-partnerR h2{
+    text-align: center;
+    color: black;
+    letter-spacing: 0.5px;
+    line-height: 40px;
+    font-size: 35px;
+}
+
+.headerPSR{
+    display: flex;
+}
+
+.lineR{
+    height: 1px;
+    width: 24%;
+    background-color: rgb(192, 188, 188);
+    margin: 47px 4px;
+}
+
+.featuresR {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1rem;
+}
+
+.featureR {
+    max-width: 20%;
+    text-align: center;
+}
+
+.featureR img{
+    width: 70px;
+    height: 70px;
+}
+
+.featureR h4{
+    color: rgb(60, 60, 60);
+    font-weight: 600;
+}
+
+.featureR p{
+    font-size: 15px;
+    color: grey;
+}
