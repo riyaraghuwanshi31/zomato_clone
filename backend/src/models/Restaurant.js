@@ -14,10 +14,11 @@ const restaurantSchema = new mongoose.Schema({
         city: { type: String, required: true },
         landmark: { type: String, required: true },
     }
-});                                
+});
 
 // Menu Schema
 const menuSchema = new mongoose.Schema({
+    email: { type: String, required: true },
     cuisines: [{ type: String, required: true }], // Array of cuisines
 
     deliveryTimings: {
@@ -26,15 +27,18 @@ const menuSchema = new mongoose.Schema({
     },
     profileImage: { type: String }, // File path for profile image
     menuImages: [{ type: String }], // Array of file paths for menu images
+    menuDetails: [{
+        dishName: { type: String },
+        price: { type: String }
+    }]
 });
 
 // Document Schema
 const documentSchema = new mongoose.Schema({
+    email: { type: String, required: true },
     panCard: { type: String, required: true }, // File path for PAN card
     fssaiLicense: { type: String, required: true }, // File path for FSSAI license
     bankDetails: { type: String, required: true }, // Bank account details text
-    menuDetails: { type: String, required: true }, // Menu details text
-    dishImage: { type: String }, // File path for dish image (optional)
     gstNumber: { type: String }, // GST number (optional)
 });
 

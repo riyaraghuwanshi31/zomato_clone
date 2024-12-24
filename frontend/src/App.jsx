@@ -7,6 +7,9 @@ import LandingPage from './components/Customer/LandingPage';
 import MainPage from './components/Common/MainPage';
 import RestPage from './components/Restaurant/RestPage';
 import RegistrationR from './components/Restaurant/RegistrationR';
+import LoginR from './components/Restaurant/LoginR';
+import Dashboard from './components/Restaurant/Dashboard';
+
 import "./App.css";
 
 const App = () => {
@@ -24,6 +27,9 @@ const App = () => {
         <Route path="/landing" element={<LandingPage />} />
         <Route path='/restaurantMainPage' element={<RestPage />} />
         <Route path='/registrationR' element={<RegistrationR />} />
+        <Route path='/loginR' element={<LoginR />} />
+        <Route path='/dashboard' element={<Dashboard/>} />
+        
       </Routes>
     </Router>
   );

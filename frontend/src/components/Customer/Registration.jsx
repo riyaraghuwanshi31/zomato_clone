@@ -3,15 +3,11 @@ import emailjs from '@emailjs/browser';
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import "./Registration.css"; // Import the CSS file for styling
 
-
-
 const statesAndCities = {
   MadhyaPradesh: ["Indore", "Bhopal", "Gwalior"],
   Maharashtra: ["Mumbai", "Pune", "Nagpur"],
   Karnataka: ["Bangalore", "Mysore", "Mangalore"],
 };
-
-
 
 const Registration = () => {
   const form = useRef();

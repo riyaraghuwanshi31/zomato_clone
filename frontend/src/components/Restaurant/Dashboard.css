@@ -1,0 +1,128 @@
+/* Top Navigation Bar */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f8f8f8;
+  padding: 10px 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.zomato-logo {
+  height: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-left p{
+  margin: 0;
+  padding: 0  10px;
+  font-size: 10px;
+}
+
+.profile-logo {
+  height: 35px;
+  border-radius: 50%;
+  
+}
+
+.restaurant-name {
+  margin-left: 10px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* Dashboard Layout */
+.dashboard-body {
+  display: flex;
+  height: calc(100vh - 50px);
+  /* Adjust for nav bar height */
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background-color: #fafafa;
+  border-right: 1px solid #ddd;
+  padding: 20px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin: 10px 0;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.sidebar ul li:hover {
+  background-color: #f0f0f0;
+}
+
+.nav-right{
+  display: flex;
+  padding: 10px;
+  align-items: center;
+  align-content: center;
+}
+
+.nav-right h4{
+  padding: 0px 10px;
+}
+
+
+
+/* Main Content Area */
+.main-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+
+/* Menu section */
+
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgb(165, 160, 160);
+}
+
+.menuDish p {
+  padding: 5px;
+  margin: 0;
+}
+
+.dish_name {
+  font-weight: 600;
+  font-size: 17px;
+}
+
+.dish_price{
+  font-size: 15px;
+  color: rgb(82, 82, 82);
+}
+
+.menuBtn button{
+  margin: 10px 10px;
+  width: 90px;
+}
+
+
+/* Restro Photos */
+.photo-gallery{
+  padding: 10px;
+}
+
+.photo-item{
+  padding:10px;
+  display: flex;
+  justify-content: space-between;
+}

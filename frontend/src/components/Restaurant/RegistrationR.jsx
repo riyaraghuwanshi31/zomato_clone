@@ -1,177 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import './RegistrationR.css';
 
 const RegistrationR = () => {
-    // const [activeStep, setActiveStep] = useState('restaurantInfo');
-    // const [selectedCuisines, setSelectedCuisines] = useState([]);
-
-
-    // const [formData, setFormData] = useState({
-    //     restaurantName: "",
-    //     ownerName: "",
-    //     email: "",
-    //     ownerMobile: "",
-    //     primaryContact: "",
-    //     address: {
-    //         shopNumber: "",
-    //         floor: "",
-    //         area: "",                 
-    //         city: "", 
-    //         landmark: "",
-    //     },
-    //     cuisines: [],
-    //     menuDetails: "",
-    //     deliveryTimings: { open: "", close: "" },
-    //     profileImage: null,
-    //     menuImages: [],
-    //     panCard: null,
-    //     fssaiLicense: null,
-    //     bankDetails: "",
-    //     gstNumber: "",
-    // });
-
-    // const cuisines = ["Chinese", "Fast Food", "North Indian", "South Indian", "Biryani", "Pizza"];
-
-    // const handleCuisineClick = (cuisine) => {
-    //     const updatedCuisines = selectedCuisines.includes(cuisine)
-    //         ? selectedCuisines.filter((item) => item !== cuisine)
-    //         : [...selectedCuisines, cuisine];
-
-    //     if (updatedCuisines.length > 3) {
-    //         alert("You can select up to 3 cuisines only.");
-    //         return;
-    //     }
-
-    //     setSelectedCuisines(updatedCuisines);
-    //     setFormData({ ...formData, cuisines: updatedCuisines });
-    // };
-
-    // const handleChange = (e) => {
-    //     const { name, value } = e.target;
-
-    //     if (name.includes("address.")) {
-    //         const addressField = name.split(".")[1];
-    //         setFormData({
-    //             ...formData,
-    //             address: {
-    //                 ...formData.address,
-    //                 [addressField]: value,
-    //             },
-    //         });
-    //     } else if (name.includes("deliveryTimings.")) {
-    //         const timingField = name.split(".")[1];
-    //         setFormData({
-    //             ...formData,
-    //             deliveryTimings: {
-    //                 ...formData.deliveryTimings,
-    //                 [timingField]: value,
-    //             },
-    //         });
-    //     } else {
-    //         setFormData({ ...formData, [name]: value });
-    //     }
-    // };
-
-    // const handleFileChange = (e) => {
-    //     const { name, files } = e.target;
-    //     setFormData({
-    //         ...formData,
-    //         [name]: name === "menuImages" ? Array.from(files) : files[0],
-    //     });
-    // };
-
-    // const validateForm = () => {
-    //     if (!formData.restaurantName || !formData.ownerName || !formData.email) {
-    //         alert("Please fill out all required fields.");
-    //         return false;
-    //     }
-    //     if (activeStep === "menuDetails" && selectedCuisines.length === 0) {
-    //         alert("Please select at least one cuisine.");
-    //         return false;
-    //     }
-    //     return true;
-    // };
-
-
-
-
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     if (!validateForm()) return;
-
-    //     const endpoints = {
-    //         restaurantInfo: "info",
-    //         menuDetails: "menu",
-    //         restaurantDocuments: "documents",
-    //     };
-    //     const apiUrl = `http://localhost:5000/api/restaurants/${endpoints[activeStep]}`;
-
-    //     console.log(`Api URL is: ${apiUrl}`);  // Debugging
-
-    //     console.log(formData); // debugging
-
-    //     const data = new FormData();
-
-    //     if (activeStep === 'restaurantInfo') {
-    //         data.append('restaurantName', formData.restaurantName);
-    //         data.append('ownerName', formData.ownerName);
-    //         data.append('email', formData.email);
-    //         data.append('ownerMobile', formData.ownerMobile);
-    //         data.append('primaryContact', formData.primaryContact);
-    //         data.append('shopNumber', formData.address.shopNumber);
-    //         data.append('floor', formData.address.floor);
-    //         data.append('area', formData.address.area);
-    //         data.append('city', formData.address.city);
-    //         data.append('landmark', formData.address.landmark);
-
-    //         console.log(data);
-    //     } else if (activeStep === 'menuDetails') {
-    //         data.append('cuisines', JSON.stringify(formData.cuisines));
-    //         data.append('deliveryTimings', JSON.stringify(formData.deliveryTimings));
-    //         if (formData.profileImage) data.append('profileImage', formData.profileImage);
-    //         formData.menuImages.forEach((file) => data.append('menuImages', file));
-    //     } else if (activeStep === 'restaurantDocuments') {
-    //         data.append('bankDetails', formData.bankDetails);
-    //         data.append('gstNumber', formData.gstNumber);
-    //         data.append('menuDetails', formData.menuDetails);
-    //         if (formData.panCard) data.append('panCard', formData.panCard);
-    //         if (formData.fssaiLicense) data.append('fssaiLicense', formData.fssaiLicense);
-    //     }
-
-    //     try {
-    //         console.log("Entered into posting"); // debugging
-
-    //         const response = await fetch(apiUrl, {
-    //             method: 'POST',
-    //             body: data,
-
-    //         });
-
-    //         const result = await response.json();
-
-    //         if (response.ok) {
-    //             console.log('After posting Response:', result); // debugging
-    //             alert(result.message);
-
-    //             if (activeStep !== 'restaurantDocuments') {
-    //                 setActiveStep((prev) =>
-    //                     prev === 'restaurantInfo' ? 'menuDetails' : 'restaurantDocuments'
-    //                 );
-    //             }
-    //         } else {
-    //             throw new Error(result.message || "Something went wrong");
-    //         }
-    //     } catch (error) {
-    //         console.error("Frontend Error submitting form:", error); // debugging
-    //         alert("Error: " + error.message);
-    //     }
-    // };
-
-
 
     const [activeStep, setActiveStep] = useState('restaurantInfo');
     const [selectedCuisines, setSelectedCuisines] = useState([]);
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         restaurantName: '',
         ownerName: '',
@@ -195,23 +31,21 @@ const RegistrationR = () => {
         panCard: null,
         fssaiLicense: null,
         bankDetails: '',
-        menuDetails: '',
-        dishImage: null,
         gstNumber: '',
     });
 
 
-
-
     const handleFileChange = (e) => {
         const { name, files } = e.target;
-        setFormData({
-            ...formData,
-            [name]: name === "menuImages" ? Array.from(files) : files[0],
+        setFormData((prevState) => {
+            const updatedFormData = {
+                ...prevState,
+                [name]: name === "menuImages" ? Array.from(files) : files[0],
+            };
+            console.log("Updated FormData:", updatedFormData);
+            return updatedFormData;
         });
     };
-
-
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -251,7 +85,7 @@ const RegistrationR = () => {
 
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+       
 
         try {
             let endpoint = '';
@@ -276,45 +110,86 @@ const RegistrationR = () => {
                 console.log("After url "); // debugging
 
                 const formDataWithFiles = new FormData();
+
+                formDataWithFiles.append('email', formData.email); // connect 
+
                 formDataWithFiles.append('profileImage', formData.profileImage);
 
                 formData.menuImages.forEach((file, index) => {
-                    formDataWithFiles.append(`menuImages[${index}]`, file);
+                    formDataWithFiles.append(`menuImages`, file); // Use a flat name instead of indexed
                 });
-
-                formData.cuisines.forEach((cuisine) => {
-                    formDataWithFiles.append('cuisines[]', cuisine);
-                });
-
+                formDataWithFiles.append('cuisines', JSON.stringify(formData.cuisines));
                 formDataWithFiles.append('deliveryTimings', JSON.stringify(formData.deliveryTimings));
+
+                // Debug FormData
+                for (const [key, value] of formDataWithFiles.entries()) {
+                    console.log(`${key}:`, value);
+                }
 
                 console.log("Append done! "); // debugging
 
                 dataToSend = formDataWithFiles;
-                headers['Content-Type'] = 'multipart/form-data';
+                headers['Content-Type'] = undefined;
             } else if (activeStep === 'restaurantDocuments') {
+
+                console.log("Before URL"); // DEBUGGING
                 endpoint = 'http://localhost:5000/api/restaurants/documents';
+                console.log("After URL"); //debugging
+
                 const formDataWithFiles = new FormData();
-                formDataWithFiles.append('panCard', formData.panCard);
-                formDataWithFiles.append('fssaiLicense', formData.fssaiLicense);
-                formDataWithFiles.append('dishImage', formData.dishImage);
+
+                formDataWithFiles.append('email', formData.email);
+
+                if (formData.panCard) {
+                    formDataWithFiles.append('panCard', formData.panCard);
+                }
+
+                if (formData.fssaiLicense) {
+                    formDataWithFiles.append('fssaiLicense', formData.fssaiLicense);
+                }
+
                 formDataWithFiles.append('bankDetails', formData.bankDetails);
-                formDataWithFiles.append('menuDetails', formData.menuDetails);
+
                 formDataWithFiles.append('gstNumber', formData.gstNumber);
+
+
+                // Debug FormData
+                for (let pair of formDataWithFiles.entries()) {
+                    console.log(`${pair[0]}:`, pair[1]); // Log keys and values
+                }
+
                 dataToSend = formDataWithFiles;
-                headers['Content-Type'] = 'multipart/form-data';
+                delete headers['Content-Type'];
+
+                // headers['Content-Type'] = undefined;
             }
 
-
             console.log("Before post"); // debugging
-            
+
+            console.log(`endpoint ${endpoint}`);  // debug
+            console.log(`data to send ${dataToSend}`); // debug
+            console.log(`Header ${headers}`);    // debug
+
             const response = await axios.post(endpoint, dataToSend, { headers });
 
             console.log("After post"); // debugging
 
-            if (response.status === 200) {
+            if (response.status === 201) {
                 alert('Form submitted successfully!');
-                setActiveStep(''); // Reset or navigate as needed
+                if (activeStep === 'restaurantInfo') {
+                    setActiveStep('menuDetails');
+                }
+                else if (activeStep === 'menuDetails') {
+                    setActiveStep('restaurantDocuments');
+                }
+                else if (activeStep === 'restaurantDocuments') {
+                    setActiveStep('');
+                    navigate('/loginR');
+                }
+                else {
+                    setActiveStep(''); // Reset or navigate as needed
+                }
+
             } else {
                 alert('Error submitting form.');
             }
@@ -511,30 +386,43 @@ const RegistrationR = () => {
                         <form onSubmit={handleSubmit}>
                             <div className="form-group">
                                 <label>PAN Card</label>
-                                <input type="file" />
+                                <input
+                                    type="file"
+                                    name="panCard"
+                                    onChange={handleFileChange} // Bind input to state
+                                />
                             </div>
                             <div className="form-group">
                                 <label>FSSAI License</label>
-                                <input type="file" />
+                                <input
+                                    type="file"
+                                    name="fssaiLicense"
+                                    onChange={handleFileChange} // Bind input to state
+                                />
                             </div>
                             <div className="form-group">
                                 <label>Don't have a FSSAI license? <a href="#">Apply here</a></label>
                             </div>
                             <div className="form-group">
                                 <label>Bank Account Details</label>
-                                <input type="text" placeholder="Enter bank account details" />
+                                <input
+                                    type="text"
+                                    name="bankDetails"
+                                    value={formData.bankDetails}
+                                    onChange={handleChange} // Bind input to state
+                                    placeholder="Enter bank account details"
+                                />
                             </div>
-                            <div className="form-group">
-                                <label>Menu Details</label>
-                                <textarea placeholder="Enter menu details"></textarea>
-                            </div>
-                            <div className="form-group">
-                                <label>Dish Image</label>
-                                <input type="file" />
-                            </div>
+
                             <div className="form-group">
                                 <label>GST Number (if applicable)</label>
-                                <input type="text" placeholder="Enter GST number" />
+                                <input
+                                    type="text"
+                                    name="gstNumber"
+                                    value={formData.gstNumber}
+                                    onChange={handleChange} // Bind input to state
+                                    placeholder="Enter GST number"
+                                />
                             </div>
                             <button type="submit" className="btn">Submit</button>
                         </form>
