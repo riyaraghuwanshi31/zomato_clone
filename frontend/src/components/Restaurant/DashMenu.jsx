@@ -14,7 +14,7 @@ const DashMenu = ({ email }) => {
 
     const fetchMenuDetails = async (email) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/restaurants/getMenu?email=${email}`);
+            const response = await fetch(`https://zomato-clone-xi-five.vercel.app/api/restaurants/getMenu?email=${email}`);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -29,7 +29,7 @@ const DashMenu = ({ email }) => {
         e.preventDefault();
         try {
             const response = editMode
-                ? await fetch('http://localhost:5000/api/restaurants/editMenu', {
+                ? await fetch('https://zomato-clone-xi-five.vercel.app/api/restaurants/editMenu', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -64,7 +64,7 @@ const DashMenu = ({ email }) => {
 
     const deleteDish = async (id) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/restaurants/deleteMenu/${id}`, {
+            const response = await fetch(`https://zomato-clone-xi-five.vercel.app/api/restaurants/deleteMenu/${id}`, {
                 method: 'DELETE',
             });
             if (response.ok) {
