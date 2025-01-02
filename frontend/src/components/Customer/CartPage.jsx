@@ -40,7 +40,7 @@ const CartPage = () => {
         // Fetch user details using email
         const fetchUserDetails = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/api/restaurantsData/userData?email=${email}`);
+                const response = await fetch(`https://zomato-clone-xi-five.vercel.app/api/restaurantsData/userData?email=${email}`);
 
                 const data = await response.json();
 
@@ -87,7 +87,7 @@ const CartPage = () => {
         try {
             console.log(`Before Fetching. Restro Email: ${orderDetails.restaurantEmail}, Restro Name: ${orderDetails.restaurantName}, Email : ${orderDetails.userEmail}, Name: ${orderDetails.userName}, Items: ${orderDetails.items}, Total Amount: ${orderDetails.totalAmount}`); // debugging
 
-            const response = await fetch('http://localhost:5000/api/orders/placeOrder', {
+            const response = await fetch('https://zomato-clone-xi-five.vercel.app/api/orders/placeOrder', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(orderDetails),
