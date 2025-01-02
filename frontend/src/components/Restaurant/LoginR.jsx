@@ -19,7 +19,7 @@ const LoginR = () => {
         try {
 
             // Verify entered email from backend
-            const response = await fetch('http://localhost:5000/api/restaurants/login', {
+            const response = await fetch('https://zomato-clone-xi-five.vercel.app/api/restaurants/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email }),
