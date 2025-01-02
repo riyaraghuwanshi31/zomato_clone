@@ -10,7 +10,7 @@ const Restro = ({ location, query, userName, email }) => {
 
     const fetchAllRestro = async () => {
         try {
-            const response = await fetch(https://zomato-clone-xi-five.vercel.app/api/restaurantsData/getRestaurant");
+            const response = await fetch("https://zomato-clone-xi-five.vercel.app/api/restaurantsData/getRestaurant");
             const data = await response.json();
             setRestaurants(data);
             setFilteredRestaurants(data);
