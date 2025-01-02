@@ -40,6 +40,10 @@ app.use(cors({
 
 connectDB;
 
+app.get("/",(req,res)=>{
+    res.json("Hello");
+})
+
 // Routes
 app.use('/api/auth', authRoutes); // users
 app.use("/api/restaurants", restaurantRoutes);
