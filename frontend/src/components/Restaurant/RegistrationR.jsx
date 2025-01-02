@@ -123,7 +123,7 @@ const RegistrationR = () => {
             console.log(`data to send ${dataToSend}`); //debugging
 
             if (activeStep === 'restaurantInfo') {
-                endpoint = 'http://localhost:5000/api/restaurants/info';
+                endpoint = 'https://zomato-clone-xi-five.vercel.app/api/restaurants/info';
                 headers['Content-Type'] = 'application/json';
             } else if (activeStep === 'menuDetails') {
 
@@ -134,7 +134,7 @@ const RegistrationR = () => {
                 console.log(formData); // debugging
                 console.log("Before url"); // debugging
 
-                endpoint = 'http://localhost:5000/api/restaurants/menu';
+                endpoint = 'https://zomato-clone-xi-five.vercel.app/api/restaurants/menu';
 
                 console.log("After url "); // debugging
 
@@ -162,7 +162,7 @@ const RegistrationR = () => {
             } else if (activeStep === 'restaurantDocuments') {
 
                 console.log("Before URL"); // DEBUGGING
-                endpoint = 'http://localhost:5000/api/restaurants/documents';
+                endpoint = 'https://zomato-clone-xi-five.vercel.app/api/restaurants/documents';
                 console.log("After URL"); //debugging
 
                 const formDataWithFiles = new FormData();
