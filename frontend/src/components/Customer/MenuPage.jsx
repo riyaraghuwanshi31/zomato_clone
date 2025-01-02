@@ -23,7 +23,7 @@ const MenuPage = () => {
   const fetchMenuData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/restaurantsData/getMenu?restaurantName=${restaurantName}`
+        `https://zomato-clone-xi-five.vercel.app/api/restaurantsData/getMenu?restaurantName=${restaurantName}`
       );
       const data = await response.json();
       setMenuData(data);
