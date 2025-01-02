@@ -25,7 +25,7 @@ const DashProfile = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        "http://localhost:5000/api/restaurants/profile",
+        "https://zomato-clone-xi-five.vercel.app/api/restaurants/profile",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -75,7 +75,7 @@ const DashProfile = () => {
       console.log(profile); // Debug
 
       const response = await axios.put(
-        "http://localhost:5000/api/restaurants/profile",
+        "https://zomato-clone-xi-five.vercel.app/api/restaurants/profile",
         profile,
         {
           headers: {
