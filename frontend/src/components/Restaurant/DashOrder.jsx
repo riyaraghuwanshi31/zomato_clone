@@ -8,7 +8,7 @@ const DashOrder = ({ restaurantEmail }) => {
         // Fetch previous orders for the restaurant
         const fetchOrders = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/api/orders?restaurantEmail=${restaurantEmail}`);
+                const response = await fetch(`https://zomato-clone-xi-five.vercel.app/api/orders?restaurantEmail=${restaurantEmail}`);
                 const data = await response.json();
                 if (response.ok) {
                     setOrders(data.orders);
@@ -23,7 +23,7 @@ const DashOrder = ({ restaurantEmail }) => {
         fetchOrders();
 
         // Setup socket connection
-        const socket = io('http://localhost:5000'); // Replace with your backend URL
+        const socket = io('https://zomato-clone-xi-five.vercel.app'); // Replace with your backend URL
         socket.on('newOrder', (order) => {
             if (order.restaurantEmail === restaurantEmail) {
                 setOrders((prevOrders) => [order, ...prevOrders]);
@@ -37,7 +37,7 @@ const DashOrder = ({ restaurantEmail }) => {
 
     const handleUpdateStatus = async (orderId, status) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/orders/updateStatus/${orderId}`, {
+            const response = await fetch(`https://zomato-clone-xi-five.vercel.app/api/orders/updateStatus/${orderId}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ status }),
