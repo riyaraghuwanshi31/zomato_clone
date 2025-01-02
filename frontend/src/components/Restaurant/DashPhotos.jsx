@@ -14,7 +14,7 @@ const DashPhotos = ({ email }) => {
 
         try {
             const response = await axios.get(
-                `http://localhost:5000/api/restaurants/getMenuImages?email=${email}`
+                `https://zomato-clone-xi-five.vercel.app/api/restaurants/getMenuImages?email=${email}`
             );
 
             if (response.data && Array.isArray(response.data)) {
@@ -45,7 +45,7 @@ const DashPhotos = ({ email }) => {
     //         try {
     //             console.log(`Fetching images for email: ${email}`);
     //             const response = await axios.get(
-    //                 `http://localhost:5000/api/restaurants/getMenuImages?email=${email}`
+    //                 `https://zomato-clone-xi-five.vercel.app/api/restaurants/getMenuImages?email=${email}`
     //             );
     //             if (response.data && Array.isArray(response.data)) {
     //                 setImages(response.data); // Ensure data is in the expected format
@@ -73,7 +73,7 @@ const DashPhotos = ({ email }) => {
 
         try {
             const response = await axios.post(
-                'http://localhost:5000/api/restaurants/addMenuImage',
+                'https://zomato-clone-xi-five.vercel.app/api/restaurants/addMenuImage',
                 formData,
                 { headers: { 'Content-Type': 'multipart/form-data' } } // Correct headers
             );
@@ -99,7 +99,7 @@ const DashPhotos = ({ email }) => {
     const handleDelete = async (imagePath) => {
         try {
             console.log("Deleting Image"); // debugging
-            const response = await axios.delete('http://localhost:5000/api/restaurants/deleteMenuImage', {
+            const response = await axios.delete('https://zomato-clone-xi-five.vercel.app/api/restaurants/deleteMenuImage', {
                 data: { email, imagePath },
             });
 
@@ -135,7 +135,7 @@ const DashPhotos = ({ email }) => {
                 {menuImage && menuImage.length > 0 ? (
                     menuImage.map((image, index) => (
                         <div key={index} className="photo-item">
-                            <img src={`http://localhost:5000/${image.replace(/\\/g, '/')}`} alt={`Restaurant ${index}`} />
+                            <img src={`https://zomato-clone-xi-five.vercel.app/${image.replace(/\\/g, '/')}`} alt={`Restaurant ${index}`} />
 
                             <button onClick={() => handleDelete(image)}>Delete</button>
                         </div>
