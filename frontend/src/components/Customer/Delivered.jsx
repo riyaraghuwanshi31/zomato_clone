@@ -10,7 +10,7 @@ const Delivered = () => {
         // Update order status to "Delivered"
         const updateOrderStatus = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/api/orders/updateStatus/${orderId}`, {
+                const response = await fetch(`https://zomato-clone-xi-five.vercel.app/api/orders/updateStatus/${orderId}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
