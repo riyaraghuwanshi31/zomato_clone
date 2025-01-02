@@ -35,7 +35,10 @@ app.use((req, res, next) => {
 });
 
 app.use(cors({
-    origin: "https://zomato-clone-mern-six.vercel.app",
+    origin: ["https://zomato-clone-mern-six.vercel.app"],
+    methods: ["POST","GET"],
+    credentials:true
+    
 }));
 
 connectDB;
