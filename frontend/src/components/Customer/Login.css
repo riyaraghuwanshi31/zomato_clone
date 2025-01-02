@@ -1,3 +1,5 @@
+
+
 .login-container {
     width: 300px;
     margin: 50px auto;
@@ -6,7 +8,10 @@
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     text-align: center;
+    
 }
+
+
 
 h2 {
     margin-bottom: 20px;
@@ -20,13 +25,22 @@ form {
     flex-direction: column;
 }
 
-input {
+/* input {
     margin-bottom: 15px;
     padding: 10px;
     font-size: 16px;
     border: 1px solid #ddd;
     border-radius: 5px;
+    width: 90%;
+} */
+
+
+.login-container input{
+    width: 93%;
+    
 }
+
+
 
 button {
     padding: 10px;

@@ -1,38 +1,32 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 
 const DashMenu = ({ email }) => {
     const [menuDetails, setMenuDetails] = useState([]);
     const [dishName, setDishName] = useState("");
     const [price, setPrice] = useState("");
+    const [cuisine, setCuisine] = useState(""); // New state for cuisine
     const [editMode, setEditMode] = useState(false);
     const [editId, setEditId] = useState(null);
 
-
     useEffect(() => {
         fetchMenuDetails(email);
-    }, [])
+    }, []);
 
     const fetchMenuDetails = async (email) => {
         try {
             const response = await fetch(`http://localhost:5000/api/restaurants/getMenu?email=${email}`);
-        
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-
-            const data = await response.json(); // Correctly parse the JSON response
-            console.log('Response:', data); // Log the parsed JSON data
-
+            const data = await response.json();
             setMenuDetails(data);
         } catch (error) {
             console.error('Error fetching menu details:', error);
         }
     };
 
-
     const addOrEditDish = async (e) => {
         e.preventDefault();
-
         try {
             const response = editMode
                 ? await fetch('http://localhost:5000/api/restaurants/editMenu', {
@@ -40,14 +34,14 @@ const DashMenu = ({ email }) => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ id: editId, dishName, price }),
+                    body: JSON.stringify({ id: editId, dishName, price, cuisine }), // Include cuisine
                 })
                 : await fetch('http://localhost:5000/api/restaurants/addMenu', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ email, dishName, price }),
+                    body: JSON.stringify({ email, dishName, price, cuisine }), // Include cuisine
                 });
 
             const data = await response.json();
@@ -56,6 +50,7 @@ const DashMenu = ({ email }) => {
                 fetchMenuDetails(email);
                 setDishName("");
                 setPrice("");
+                setCuisine(""); // Reset cuisine
                 setEditMode(false);
                 setEditId(null);
             } else {
@@ -72,7 +67,6 @@ const DashMenu = ({ email }) => {
             const response = await fetch(`http://localhost:5000/api/restaurants/deleteMenu/${id}`, {
                 method: 'DELETE',
             });
-
             if (response.ok) {
                 fetchMenuDetails(email);
             } else {
@@ -88,11 +82,10 @@ const DashMenu = ({ email }) => {
     const handleEdit = (item) => {
         setDishName(item.dishName);
         setPrice(item.price);
+        setCuisine(item.cuisine); // Set cuisine for editing
         setEditMode(true);
-        setEditId(item._id); // Assuming `id` or `_id` is used as the identifier in your database
+        setEditId(item._id);
     };
-
-
 
     return (
         <section className="menu-section">
@@ -110,6 +103,20 @@ const DashMenu = ({ email }) => {
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                 />
+                <select
+                    value={cuisine}
+                    onChange={(e) => setCuisine(e.target.value)}
+                >
+                    <option value="">Select Cuisine</option>
+                    <option value="Chinese">Chinese</option>
+                    <option value="Fastfood">Fastfood</option>
+                    <option value="North Indian">North Indian</option>
+                    <option value="South Indian">South Indian</option>
+                    <option value="Biryani">Biryani</option>
+                    <option value="Pizza">Pizza</option>
+                    <option value="Sweets">Sweets</option>
+                    <option value="Cakes">Cakes</option>
+                </select>
                 <button type="submit">{editMode ? 'Update Dish' : 'Add Dish'}</button>
             </form>
             <div className="menu-list">
@@ -119,14 +126,12 @@ const DashMenu = ({ email }) => {
                             <div className="menuDish">
                                 <p className='dish_name'>{item.dishName}</p>
                                 <p className='dish_price'>Rs.{item.price}</p>
+                                <p className='dish_cuisine'>Cuisine: {item.cuisine}</p> {/* Display cuisine */}
                             </div>
-
                             <div className="menuBtn">
                                 <button onClick={() => handleEdit(item)}>Edit</button>
                                 <button onClick={() => deleteDish(item._id)}>Delete</button>
                             </div>
-
-
                         </div>
                     ))
                 ) : (

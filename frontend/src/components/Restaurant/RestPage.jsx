@@ -15,4 +15,4 @@ const RestPage = () => {
     );
 };
 
-export default RestPage;
+export default RestPage; 

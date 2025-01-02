@@ -1,52 +1,19 @@
-require('dotenv').config
+require('dotenv').config();
 const express = require('express');
 const multer = require('multer');
 const jwt = require('jsonwebtoken');
-const { Restaurant, Menu, Document } = require('../models/Restaurant');
-// const upload = require("./uploadRoutes");
+const fs = require('fs');
 
+const { Restaurant, Menu, Document } = require('../models/Restaurant');
 const authenticate = require("../middleware/authenticate");
+
 
 const router = express.Router();
 
-// // Multer configuration
-// const storage = multer.diskStorage({
-//     destination: (req, file, cb) => {
-//         cb(null, 'uploads'); // Ensure 'uploads' folder exists and is writable
-//     },
-//     filename: (req, file, cb) => {
-//         // const uniqueName = `${Date.now()}-${file.originalname}`;
-//         cb(null, Date.now() + path.extname(file.originalname));
-//         cb(null, uniqueName);
-//     },
-// });
-
-// // // Initialize multer
-// // const upload = multer({
-// //     storage,
-// //     fileFilter,
-// //     limits: { fileSize: 5 * 1024 * 1024 }, // Limit to 5MB
-// // });
-
-// // Define file filter for images
-// const fileFilter = (req, file, cb) => {
-//     const allowedTypes = /jpeg|jpg|png/;
-//     const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-//     const mimetype = allowedTypes.test(file.mimetype);
-
-//     if (mimetype && extname) {
-//         cb(null, true);
-//     } else {
-//         cb('Error: Images only!');
-//     }
-// };
-
-
-// ********Previous code ********************** 
-// Configure multer for file uploads with file size limit and file type filter
+// Configure multer for file uploads  //image add krne ke liye
 const upload = multer({
     dest: 'uploads/',
-    limits: { fileSize: 5 * 1024 * 1024 }, // Limit file size to 5 MB
+    limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB limit
     fileFilter: (req, file, cb) => {
         const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
         if (allowedTypes.includes(file.mimetype)) {
@@ -57,65 +24,35 @@ const upload = multer({
     }
 });
 
-// Define a route to upload a single image (e.g., profile picture for a restaurant)
-router.post('/upload', upload.single('image'), async (req, res) => {
+// Upload Route
+router.post('/upload', upload.single('image'), async (req, res) => {   // upload ka hi hai image   // menu mein 16 or 17 number ke menu ki details sahi hai bs or load hone mein time lagara hai kyunki images add kari hai 
+
     try {
-        // if (!req.file) {
-        //     return res.status(400).send('No file uploaded.');
-        // }
-
-        // const imagePath = req.file.path.replace(/\\/g, '/'); // Normalize path for cross-platform compatibility
-
-        // const restaurant = new Restaurant({
-        //     image: imagePath, // Save the normalized file path
-        // });
-
-        // await restaurant.save(); // Save restaurant data
-
-        // return res.status(200).json({
-        //     message: 'File uploaded and restaurant data saved.',
-        //     imagePath,
-        // });
-
-        // *********** Previous code ************
-        if (!req.file && !req.files) {
+        if (!req.file) {
             return res.status(400).json({ error: 'No file uploaded' });
         }
 
-        const restaurant = new Restaurant({
-            image: req.file.path,  // Storing the file path in the database
-        });
+        const newRestaurant = new Restaurant({ image: req.file.path });
+        await newRestaurant.save();
 
-        await restaurant.save();  // Save the restaurant data with the image path
-
-        return res.status(200).send('File uploaded and restaurant data saved.');
+        res.status(200).send('File uploaded and restaurant data saved.');
     } catch (err) {
         console.error(err);
-        return res.status(500).send('Server error. Please try again.');
+        res.status(500).send('Server error. Please try again.');
     }
 });
 
 // Restaurant Info API
 router.post('/info', async (req, res) => {
-
-    console.log('Request received:', req.body); // Debugging
-    console.log('Received data:', req.body); // debugging
-
     try {
         const { restaurantName, ownerName, email, ownerMobile, primaryContact, address } = req.body;
 
         if (!restaurantName || !ownerName || !email || !ownerMobile || !primaryContact || !address) {
-            console.log("Missing fields!"); // debugging
-
             return res.status(400).json({ message: 'Missing required fields' });
         }
 
         const { shopNumber, floor, area, city, landmark } = address;
-
-        // Check if all address fields are provided
         if (!shopNumber || !floor || !area || !city || !landmark) {
-            console.log("Missing address fields!"); // debugging
-
             return res.status(400).json({ message: 'Missing address fields' });
         }
 
@@ -127,14 +64,9 @@ router.post('/info', async (req, res) => {
             primaryContact,
             address: { shopNumber, floor, area, city, landmark },
         });
-        console.log("Done till storing, save left"); // debugging
 
-        await newRestaurant.save(); // save 
-
-        console.log("Save Done!");
-
+        await newRestaurant.save();
         res.status(201).json({ message: 'Restaurant info submitted successfully' });
-
     } catch (error) {
         console.error('Error in /info route:', error.message);
         res.status(500).json({ message: 'Server error. Could not save restaurant info.' });
@@ -142,75 +74,60 @@ router.post('/info', async (req, res) => {
 });
 
 
-// Menu Details API
-router.post('/menu', upload.fields([{ name: 'profileImage' }, { name: 'menuImages', maxCount: 5 }]), async (req, res) => {
 
-    // Extract uploaded files
-    const profileImage = req.files['profileImage']?.[0]; // Single file
-    const menuImages = req.files['menuImages'] || []; // Array of files
+router.post(
+    '/menu',
+    upload.fields([{ name: 'profileImage', maxCount: 1 }, { name: 'menuImages', maxCount: 5 }]),
+    async (req, res) => {
+        try {
+            const { email, deliveryTimings } = req.body;
 
-    console.log("Files: ", req.files); //debugging
-    console.log("Body: ", req.body);  // debugging
+            if (!email || !deliveryTimings || !req.files['profileImage']) {
+                return res.status(400).json({ message: 'Missing required fields.' });
+            }
 
-    // Extract other fields
-    const cuisines = req.body.cuisines?.split(','); // Split string to array
-    // const menuDetails = req.body.menuDetails;
+            const profileImage = req.files['profileImage'][0];
+            const menuImages = req.files['menuImages'] || [];
 
-    const email = req.body.email;
+            const newMenu = new Menu({
+                email,
+                // cuisines: cuisines.split(','),
+                deliveryTimings: JSON.parse(deliveryTimings),
+                profileImage: {
+                    data: fs.readFileSync(profileImage.path), // Read profile image file as Buffer
+                    contentType: profileImage.mimetype,
+                },
+                menuImages: menuImages.map(file => ({
+                    data: fs.readFileSync(file.path), // Read each menu image file as Buffer
+                    contentType: file.mimetype,
+                })),
+            });
 
-    const deliveryTimings = JSON.parse(req.body.deliveryTimings || '{}'); // Parse JSON
+            await newMenu.save();
 
-    // Validate fields
-    if (!email || !cuisines || !deliveryTimings || !profileImage) {
-        return res.status(400).json({ message: 'Missing required fields in menu' });
+            fs.unlinkSync(profileImage.path); // Remove profile image file
+            menuImages.forEach(file => fs.unlinkSync(file.path)); // Remove each menu image file
+
+            res.status(201).json({ message: 'Menu uploaded successfully.', menu: newMenu });
+        } catch (error) {
+            console.error('Error in /menu route:', error.message);
+            res.status(500).json({ message: 'Server error.', error: error.message });
+        }
     }
-
-    try {
-        // Save menu details to DB
-        const newMenu = new Menu({
-            email,
-            cuisines,
-            deliveryTimings, // Already parsed
-            profileImage: profileImage.path, // Save file path
-            menuImages: menuImages.map(file => file.path), // Save paths of multiple files
-        });
-
-        await newMenu.save();
-
-        // Send response 
-        res.status(201).json({ message: 'Menu details submitted successfully' });
-    } catch (error) {
-        console.error('Error in /menu route:', error);
-        res.status(500).json({ message: 'Server error. Could not save menu details.' });
-    }
-});
-
+);
 
 // Documents API
 router.post('/documents', upload.fields([{ name: 'panCard', maxCount: 1 }, { name: 'fssaiLicense', maxCount: 1 }]), async (req, res) => {
-
-    console.log('In the backend!!');
-    console.log('Headers:', req.headers);
-
-    console.log("Files: ", req.files); //debugging
-    console.log("Body: ", req.body);  // debugging
-
-
-    const panCard = req.files?.['panCard']?.[0];
-    const fssaiLicense = req.files?.['fssaiLicense']?.[0];
-
-    const { email, bankDetails, gstNumber } = req.body;
-
-    // Validate presence of files and fields
-
-    if (!email || !panCard || !fssaiLicense || !bankDetails || !gstNumber) {
-        return res.status(400).json({ message: 'Missing required fields or files.' });
-    }
-
-    console.log("VALIDATION DONE!"); // debugging
-
     try {
-        // Save documents to DB
+        const { email, bankDetails, gstNumber } = req.body;
+
+        const panCard = req.files['panCard']?.[0];
+        const fssaiLicense = req.files['fssaiLicense']?.[0];
+
+        if (!email || !panCard || !fssaiLicense || !bankDetails || !gstNumber) {
+            return res.status(400).json({ message: 'Missing required fields or files.' });
+        }
+
         const newDocument = new Document({
             email,
             panCard: panCard.path,
@@ -220,13 +137,10 @@ router.post('/documents', upload.fields([{ name: 'panCard', maxCount: 1 }, { nam
         });
 
         await newDocument.save();
-
-        console.log("SAVED!!"); // debugging
-
-        // Send response
         res.status(201).json({ message: 'Documents submitted successfully' });
     } catch (error) {
-        console.error(error);
+        console.error('Error in /documents route:', error.message);
+        console.log("Error is coming!");
         res.status(500).json({ message: 'Server error. Could not save documents.' });
     }
 });
@@ -249,9 +163,7 @@ router.post('/login', async (req, res) => {
         if (!restaurant) {
             return res.status(404).json({ message: 'Wrong Email' });
         }
-
         const token = jwt.sign({ id: restaurant._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
-
         res.status(200).json({
             message: 'Login Successful',
             token,
@@ -264,27 +176,69 @@ router.post('/login', async (req, res) => {
 })
 
 
-// Fetching Profile
+// Fetching Profile 
 router.get('/profile', authenticate, async (req, res) => {
     console.log('Fetching profile for restaurantId:', req.user.restaurantId); // Debugging
     try {
+        // Fetch the restaurant details
+
         const restaurant = await Restaurant.findById(req.user.restaurantId);
         if (!restaurant) {
             console.log('Restaurant not found for ID:', req.user.restaurantId); // Debugging
             return res.status(404).send('Restaurant not found');
         }
-        res.json(restaurant);
+
+        // Fetch the menu details using the restaurant's email
+        const menu = await Menu.findOne({ email: restaurant.email });
+        console.log("Fetched Menu: ", menu);
+        if (!menu) {
+            console.log('Menu not found for email:', restaurant.email); // Debugging
+            return res.status(404).send('Menu not found');
+        }
+
+        // Extract the cuisines array from the menu
+        const cuisines = menu.cuisines;
+
+        // Respond with both restaurant details and cuisines
+        res.json({
+            ...restaurant.toObject(),
+            cuisines: cuisines || [] // Include cuisines, or an empty array if none exist
+        });
+
     } catch (error) {
         console.error('Error fetching profile:', error.message);
         res.status(500).send('Error fetching profile');
     }
 });
 
+
+// // Fetching Profile Previous new 
+// router.get('/profile', authenticate, async (req, res) => {
+//     console.log('Fetching profile for restaurantId:', req.user.restaurantId); // Debugging
+//     try {
+//         const restaurant = await Restaurant.findById(req.user.restaurantId);
+//         if (!restaurant) {
+//             console.log('Restaurant not found for ID:', req.user.restaurantId); // Debugging
+//             return res.status(404).send('Restaurant not found');
+//         }
+
+//         const email = restaurant.email;
+//         const menu = await Menu.findOne(email);
+
+
+
+//         res.json(restaurant);
+//     } catch (error) {
+//         console.error('Error fetching profile:', error.message);
+//         res.status(500).send('Error fetching profile');
+//     }
+// });
+
 // Update profile
 router.put("/profile", authenticate, async (req, res) => {
     try {
-        console.log("Arrived!");
-        const { email, primaryContact, ownerName, restaurantName } = req.body;
+        console.log("Arrived at backend for updating profile!");
+        const { email, primaryContact, ownerName, restaurantName, cuisines } = req.body;
 
         console.log("Request Body:", req.body); // Debugging the input payload
 
@@ -293,9 +247,21 @@ router.put("/profile", authenticate, async (req, res) => {
             return res.status(400).send("Invalid restaurant ID");
         }
 
-        console.log("At backend with ID:", req.user.restaurantId);
+        console.log("At backend with restaurant ID:", req.user.restaurantId);
 
-        // Updating selected fields only
+        // Ensure cuisines is processed correctly
+        let cuisinesArray;
+        if (Array.isArray(cuisines)) {
+            cuisinesArray = cuisines; // If already an array, use as-is
+        } else if (typeof cuisines === 'string') {
+            cuisinesArray = cuisines.split(',').map(c => c.trim()); // Split string into array
+        } else {
+            return res.status(400).send("Invalid cuisines format");
+        }
+
+        console.log("Processed Cuisines Array:", cuisinesArray);
+
+        // Update restaurant details
         const updatedRestaurant = await Restaurant.findOneAndUpdate(
             { _id: req.user.restaurantId },
             {
@@ -306,51 +272,63 @@ router.put("/profile", authenticate, async (req, res) => {
                     restaurantName,
                 },
             },
-            { new: true, runValidators: true } // runValidators ensures schema validation
+            { new: true, runValidators: true } // Ensure validation is applied
         );
 
         if (!updatedRestaurant) {
             return res.status(404).send("Restaurant not found");
-        } else {
-            console.log("Updated successfully!", updatedRestaurant); // Debugging updated data
-            res.status(200).json(updatedRestaurant);
         }
 
+        console.log("Updated restaurant details successfully!");
 
+        // Replace cuisines in the Menu schema
+        const updatedMenu = await Menu.findOneAndUpdate(
+            { email: updatedRestaurant.email }, // Match menu by restaurant's email
+            { $set: { cuisines: cuisinesArray } }, // Replace cuisines with the new array
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedMenu) {
+            console.log("Menu not found for email:", updatedRestaurant.email); // Debugging
+            return res.status(404).send("Menu not found");
+        }
+
+        console.log("Cuisines replaced successfully!", updatedMenu.cuisines);
+
+        // Respond with the updated profile, including cuisines
+        res.status(200).json({
+            ...updatedRestaurant.toObject(),
+            cuisines: updatedMenu.cuisines,
+        });
     } catch (error) {
-        console.error("Error updating profile:", error); // Log the error for debugging
-        res.status(500).send(error);
+        console.error("Error updating profile:", error.message); // Log the error for debugging
+        res.status(500).send({ error: error.message });
     }
 });
 
 
 // Add Menu
 router.post("/addMenu", async (req, res) => {
-    const { email, dishName, price } = req.body;
+    const { email, dishName, price, cuisine } = req.body;
 
     // Validate input fields
-    if (!email || !dishName || !price) {
-        return res.status(400).json({ message: "Dish name and price are required" });
+    if (!email || !dishName || !price || !cuisine) {
+        return res.status(400).json({ message: "Dish name, price, and cuisine are required." });
     }
 
     try {
         // Fetch the menu associated with the restaurant
         const menu = await Menu.findOneAndUpdate(
             { email },
-            { $push: { menuDetails: { dishName, price } } },
+            { $push: { menuDetails: { dishName, price, cuisine } } },
             { new: true, upsert: false }
         );
 
-        console.log(menu);//debug
-
         if (!menu) {
-            console.log("Menu not found for restaurant ID:", req.user.restaurantId);
             return res.status(404).json({ message: "Menu not found for this restaurant" });
         }
 
-
         res.status(200).json({ message: 'Dish added successfully', menu });
-
     } catch (error) {
         console.error("Error updating menu details: ", error);
         res.status(500).json({ message: "Server error", error: error.message });
@@ -358,7 +336,8 @@ router.post("/addMenu", async (req, res) => {
 });
 
 
-// Get Menu 
+
+// Get Menu  khula rehne du ye ?
 router.get('/getMenu', async (req, res) => {
     const { email } = req.query;
 
@@ -380,12 +359,17 @@ router.get('/getMenu', async (req, res) => {
 });
 
 
-// Edit Menu
+// Edit Menu  // is dashboard done
 router.put('/editMenu', async (req, res) => {
-    const { id, dishName, price } = req.body;
+    const { id, dishName, price, cuisine } = req.body;
+
+    if (!id || !dishName || !price || !cuisine) {
+        return res.status(400).json({ message: "Dish ID, name, price, and cuisine are required." });
+    }
+
     try {
         const result = await Menu.updateOne({ 'menuDetails._id': id }, // Find the dish by its `_id` in `menuDetails`
-            { $set: { 'menuDetails.$.dishName': dishName, 'menuDetails.$.price': price } } // Update the matching fields
+            { $set: { 'menuDetails.$.dishName': dishName, 'menuDetails.$.price': price, 'menuDetails.$.cuisine': cuisine } } // Update the matching fields
         );
 
         if (result.nModified === 0) {
@@ -398,7 +382,7 @@ router.put('/editMenu', async (req, res) => {
     }
 });
 
-// Delete Menu
+// Delete Menu  repeat
 router.delete('/deleteMenu/:id', async (req, res) => {
     const { id } = req.params;
 
@@ -422,94 +406,178 @@ router.delete('/deleteMenu/:id', async (req, res) => {
 });
 
 
-// Get Menu Images
+// Get Menu Image 
 router.get('/getMenuImages', async (req, res) => {
     const { email } = req.query; // Pass email as a query parameter
-    console.log("At backend!"); // debugging
     try {
         const menu = await Menu.findOne({ email });
 
-        console.log(`menu details ${menu}`);
-
         if (!menu) {
-            console.log('Menu not found');
             return res.status(404).json({ message: 'Menu not found' });
         }
 
+        // Convert Buffer data to Base64 for all images
+        const images = menu.menuImages.map(image => {
+            if (image.data) {
+                return `data:${image.contentType};base64,${image.data.toString('base64')}`;
+            }
+            return null;
+        });
 
-
-        console.log('Menu images fetched successfully');
-        res.status(200).json(menu.menuImages);
+        res.status(200).json(images);
     } catch (error) {
-        console.error(error);
+        console.error('Error fetching menu images:', error);
         res.status(500).json({ error: 'Error fetching menu images' });
     }
 });
 
 
 
-
-
-
-
-// Add Menu Image
+// Add menu images
 router.post('/addMenuImage', upload.single('menuImage'), async (req, res) => {
+    const { email } = req.body;
+    const file = req.file;
 
-    const { email } = req.body; // menuId is the unique identifier for the menu item
-    // const menuImage = req.file; // Image file uploaded via multer
-    const filePath = req.file?.path;
-
-
-    console.log(req.file); //debug
-    console.log(req.files); // debug
-
-    // // Validate input fields
-    // if (!email || !menuImage) {
-    //     return res.status(400).json({ message: "Email and image file are required." });
-    // }
-
-    if (!email || !filePath) {
-        return res.status(400).json({ message: "Email and image are required." });
+    if (!email || !file) {
+        return res.status(400).json({ message: 'Email and image are required.' });
     }
 
     try {
-        // Update the menu item with the image path
         const menu = await Menu.findOneAndUpdate(
-            { email }, // Find the document using the email field
-            // { $push: { menuImages: menuImage.path } }, // Push the image path to the `menuImages` array
-            { $push: { menuImages: filePath } },
-            { new: true } // Return the updated document
+            { email },
+            {
+                $push: {
+                    menuImages: {
+                        data: fs.readFileSync(file.path), // Read file as Buffer
+                        contentType: file.mimetype,
+                    },
+                },
+            },
+            { new: true }
         );
 
         if (!menu) {
-            return res.status(404).json({ message: "Menu item not found." });
+            return res.status(404).json({ message: 'Menu not found.' });
         }
-        console.log("Updating done!");  //debug
 
-        res.status(200).json({ message: "Menu image added successfully", menu });
+        res.status(200).json({ message: 'Menu image added successfully', menu });
     } catch (error) {
-        console.error("Error adding menu image:", error);
-        res.status(500).json({ message: "Server error", error: error.message });
+        console.error('Error adding menu image:', error);
+        res.status(500).json({ message: 'Server error', error: error.message });
     }
+    // finally {
+    //     // Remove the file after processing
+    //     fs.unlinkSync(file.path);
+    // }
 });
+
+
+
+
+// // Add Menu Image PREVIOUS
+// router.post('/addMenuImage', upload.single('menuImage'), async (req, res) => {
+
+//     const { email } = req.body; // menuId is the unique identifier for the menu item
+//     // const menuImage = req.file; // Image file uploaded via multer
+//     const filePath = req.file?.path;
+
+
+//     console.log(req.file); //debug
+//     console.log(req.files); // debug
+
+//     // // Validate input fields
+//     // if (!email || !menuImage) {
+//     //     return res.status(400).json({ message: "Email and image file are required." });
+//     // }
+
+//     if (!email || !filePath) {
+//         return res.status(400).json({ message: "Email and image are required." });
+//     }
+
+//     try {
+//         // Update the menu item with the image path
+//         const menu = await Menu.findOneAndUpdate(
+//             { email }, // Find the document using the email field
+//             // { $push: { menuImages: menuImage.path } }, // Push the image path to the `menuImages` array
+//             { $push: { menuImages: filePath } },
+//             { new: true } // Return the updated document
+//         );
+
+//         if (!menu) {
+//             return res.status(404).json({ message: "Menu item not found." });
+//         }
+//         console.log("Updating done!");  //debug
+
+//         res.status(200).json({ message: "Menu image added successfully", menu });
+//     } catch (error) {
+//         console.error("Error adding menu image:", error);
+//         res.status(500).json({ message: "Server error", error: error.message });
+//     }
+// });
+
 
 // Delete Menu Image
 router.delete('/deleteMenuImage', async (req, res) => {
     const { email, imagePath } = req.body;
+
+    // Validate input
+    if (!email || !imagePath) {
+        return res.status(400).json({ message: 'Email and imagePath are required' });
+    }
+
     try {
-        const menu = await Menu.findOneAndUpdate(
-            { email },
-            { $pull: { menuImages: imagePath } },
-            { new: true }
-        );
+        // Find the menu by email
+        const menu = await Menu.findOne({ email });
         if (!menu) {
             return res.status(404).json({ message: 'Menu not found' });
         }
-        res.status(200).json({ message: 'Image deleted successfully', menuImages: menu.menuImages });
+
+        // Filter out the image to be deleted
+        const updatedImages = menu.menuImages.filter(image => {
+            if (!image || !image.contentType || !image.data) {
+                console.warn('Invalid image object:', image);
+                return true; // Keep invalid image entries for debugging
+            }
+
+            // Construct the base64 path to compare
+            const currentImagePath = `data:${image.contentType};base64,${image.data.toString('base64')}`;
+            return currentImagePath !== imagePath;
+        });
+
+        // Check if the image was actually deleted
+        if (updatedImages.length === menu.menuImages.length) {
+            return res.status(404).json({ message: 'Image not found in the menu' });
+        }
+
+        // Update the menu and save
+        menu.menuImages = updatedImages;
+        await menu.save();
+
+        res.status(200).json({ message: 'Image deleted successfully', menuImages: updatedImages });
     } catch (error) {
-        res.status(500).json({ error: 'Error deleting menu image' });
+        console.error('Error deleting image:', error);
+        res.status(500).json({ error: 'Error deleting image' });
     }
 });
+
+
+// // Delete Menu Image PREVIOUS
+// router.delete('/deleteMenuImage', async (req, res) => {
+//     const { email, imagePath } = req.body;
+//     try {
+//         const menu = await Menu.findOneAndUpdate(
+//             { email },
+//             { $pull: { menuImages: imagePath } },
+//             { new: true }
+//         );
+//         if (!menu) {
+//             return res.status(404).json({ message: 'Menu not found' });
+//         }
+//         res.status(200).json({ message: 'Image deleted successfully', menuImages: menu.menuImages });
+//     } catch (error) {
+//         res.status(500).json({ error: 'Error deleting menu image' });
+//     }
+// });
 
 
 module.exports = router;

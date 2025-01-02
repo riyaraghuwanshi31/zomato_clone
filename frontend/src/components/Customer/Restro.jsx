@@ -1,52 +1,53 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Restro = ({ location, query }) => {
+const Restro = ({ location, query, userName, email }) => {
     const [restaurants, setRestaurants] = useState([]);
     const [filteredRestaurants, setFilteredRestaurants] = useState([]);
-    
+    const navigate = useNavigate();
 
-    // Fetch all restaurant data from the backend
+    console.log(`Restro page username ${userName}`); // debugging
+
     const fetchAllRestro = async () => {
         try {
             const response = await fetch("http://localhost:5000/api/restaurantsData/getRestaurant");
             const data = await response.json();
             setRestaurants(data);
-            setFilteredRestaurants(data); // Initially, show all restaurants
+            setFilteredRestaurants(data);
         } catch (error) {
             console.error("Error fetching restaurants:", error);
         }
     };
 
-    // Filter restaurants based on location and query
     const filterRestro = () => {
-        console.log('Location:', location);
-        console.log('Query:', query);
-        console.log('Restaurants:', restaurants);
         const filtered = restaurants.filter((restro) => {
             const matchesLocation = location
                 ? restro.location?.toLowerCase().includes(location.toLowerCase())
                 : true;
+
             const matchesQuery = query
                 ? restro.restaurantName?.toLowerCase().includes(query.toLowerCase()) ||
-                restro.cuisines.some((cuisine) =>
-                    cuisine.toLowerCase().includes(query.toLowerCase())
-                )
+                  restro.cuisines.some((cuisine) =>
+                      cuisine.toLowerCase().includes(query.toLowerCase())
+                  ) ||
+                  restro.menu?.some((dish) =>
+                      dish.name.toLowerCase().includes(query.toLowerCase())
+                  )
                 : true;
 
             return matchesLocation && matchesQuery;
         });
-        console.log('Filtered:', filtered);
         setFilteredRestaurants(filtered);
     };
 
+    const handleRestaurantClick = (restaurantName) => {
+        navigate(`/menu/${restaurantName}`, { state: { userName, email } });
+    };
 
-    // Fetch data on component mount
     useEffect(() => {
         fetchAllRestro();
     }, []);
 
-    // Filter restaurants when location or query changes
     useEffect(() => {
         filterRestro();
     }, [location, query, restaurants]);
@@ -57,16 +58,28 @@ const Restro = ({ location, query }) => {
             <div className="restroMain">
                 {filteredRestaurants.length > 0 ? (
                     filteredRestaurants.map((restro, index) => (
-                        <div className="restroRow" key={restro.id || `${restro.restaurantName || 'unknown'}-${index}`}>
+                        <div
+                            className="restroRow"
+                            key={restro.id || `${restro.restaurantName || 'unknown'}-${index}`}
+                            onClick={() => handleRestaurantClick(restro.restaurantName)}
+                        >
                             <div className="restroCol">
                                 <div className="restroImg">
-                                    <img src={restro.profileImage || "default-image.jpg"} alt={`${restro.restaurantName} Profile`} />
+                                    <img
+                                        src={restro.profileImage || "default-image.jpg"}
+                                        alt={`${restro.restaurantName} Profile`}
+                                    />
                                 </div>
                                 <div className="restroInfo">
                                     <h4>{restro.restaurantName}</h4>
                                     <div className="detailsRestro">
-                                        <p><strong>Cuisines:</strong> {restro.cuisines.join(', ') || "Not Available"}</p>
-                                        <p><strong>Delivery Time:</strong> {restro.deliveryTime ? `${restro.deliveryTime.openTime} - ${restro.deliveryTime.closeTime}` : "Not Specified"}</p>
+                                        <p>{restro.cuisines.join(', ') || "Not Available"}</p>
+                                        <p>
+                                            <span>Delivery Time: </span>
+                                            {restro.deliveryTime
+                                                ? `${restro.deliveryTime.openTime} am - ${restro.deliveryTime.closeTime} pm `
+                                                : "Not Specified"}
+                                        </p>
                                     </div>
                                 </div>
                             </div>

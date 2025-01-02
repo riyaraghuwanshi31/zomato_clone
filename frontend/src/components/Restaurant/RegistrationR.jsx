@@ -6,8 +6,14 @@ import './RegistrationR.css';
 const RegistrationR = () => {
 
     const [activeStep, setActiveStep] = useState('restaurantInfo');
-    const [selectedCuisines, setSelectedCuisines] = useState([]);
+    // const [selectedCuisines, setSelectedCuisines] = useState([]);
     const navigate = useNavigate();
+
+    const [imagePreviews, setImagePreviews] = useState({
+        profileImage: null,
+        menuImages: [],
+    });
+
     const [formData, setFormData] = useState({
         restaurantName: '',
         ownerName: '',
@@ -21,7 +27,7 @@ const RegistrationR = () => {
             city: '',
             landmark: '',
         },
-        cuisines: [],
+        // cuisines: [],
         deliveryTimings: {
             openTime: '',
             closeTime: '',
@@ -37,14 +43,32 @@ const RegistrationR = () => {
 
     const handleFileChange = (e) => {
         const { name, files } = e.target;
-        setFormData((prevState) => {
-            const updatedFormData = {
-                ...prevState,
-                [name]: name === "menuImages" ? Array.from(files) : files[0],
-            };
-            console.log("Updated FormData:", updatedFormData);
-            return updatedFormData;
-        });
+
+        const allowedExtensions = ['image/jpeg', 'image/png'];
+
+        for (const file of files) {
+            if (!allowedExtensions.includes(file.type)) {
+                alert('Only JPEG and PNG files are allowed.');
+                return;
+            }
+            if (file.size > 2 * 1024 * 1024) {
+                alert('File size should be less than 2MB.');
+                return;
+            }
+        }
+
+        // Generate previews for selected files
+        if (name === "menuImages") {
+            const filePreviews = Array.from(files).map((file) => URL.createObjectURL(file));
+            setImagePreviews((prev) => ({ ...prev, menuImages: filePreviews }));
+        } else if (name === "profileImage") {
+            setImagePreviews((prev) => ({ ...prev, profileImage: URL.createObjectURL(files[0]) }));
+        }
+
+        setFormData((prevState) => ({
+            ...prevState,
+            [name]: name === "menuImages" ? Array.from(files) : files[0],
+        }));
     };
 
     const handleChange = (e) => {
@@ -67,25 +91,26 @@ const RegistrationR = () => {
         }
     };
 
-    const cuisines = ["Chinese", "Fast Food", "North Indian", "South Indian", "Biryani", "Pizza"];
+    // const cuisines = ["Chinese", "Fast Food", "North Indian", "South Indian", "Biryani", "Pizza","Sweets", "Cake"];
 
-    const handleCuisineClick = (cuisine) => {
-        const updatedCuisines = selectedCuisines.includes(cuisine)
-            ? selectedCuisines.filter((item) => item !== cuisine)
-            : [...selectedCuisines, cuisine];
+    // const handleCuisineClick = (cuisine) => {
+    //     const updatedCuisines = selectedCuisines.includes(cuisine)
+    //         ? selectedCuisines.filter((item) => item !== cuisine)
+    //         : [...selectedCuisines, cuisine];
 
-        if (updatedCuisines.length > 3) {
-            alert("You can select up to 3 cuisines only.");
-            return;
-        }
+    //     if (updatedCuisines.length > 3) {
+    //         alert("You can select up to 3 cuisines only.");
+    //         return;
+    //     }
 
-        setSelectedCuisines(updatedCuisines);
-        setFormData({ ...formData, cuisines: updatedCuisines });
-    };
+    //     setSelectedCuisines(updatedCuisines);
+    //     setFormData({ ...formData, cuisines: updatedCuisines });
+    // };
 
 
     const handleSubmit = async (e) => {
-       
+
+        e.preventDefault();
 
         try {
             let endpoint = '';
@@ -102,6 +127,10 @@ const RegistrationR = () => {
                 headers['Content-Type'] = 'application/json';
             } else if (activeStep === 'menuDetails') {
 
+                if (!formData.profileImage || formData.menuImages.length === 0) {
+                    alert('Please upload a profile image and at least one menu image.');
+                    return;
+                }
                 console.log(formData); // debugging
                 console.log("Before url"); // debugging
 
@@ -118,7 +147,7 @@ const RegistrationR = () => {
                 formData.menuImages.forEach((file, index) => {
                     formDataWithFiles.append(`menuImages`, file); // Use a flat name instead of indexed
                 });
-                formDataWithFiles.append('cuisines', JSON.stringify(formData.cuisines));
+                // formDataWithFiles.append('cuisines', JSON.stringify(formData.cuisines));
                 formDataWithFiles.append('deliveryTimings', JSON.stringify(formData.deliveryTimings));
 
                 // Debug FormData
@@ -319,24 +348,40 @@ const RegistrationR = () => {
                         <form onSubmit={handleSubmit}>
                             <div className="form-group">
                                 <label>Menu Images</label>
-                                <input type="file"
+                                <input
+                                    type="file"
                                     name="menuImages"
                                     multiple
-
                                     onChange={handleFileChange}
                                 />
+                                <div className="image-preview-container">
+                                    {imagePreviews.menuImages.map((src, index) => (
+                                        <img
+                                            key={index}
+                                            src={src}
+                                            alt={`Menu Preview ${index + 1}`}
+                                            style={{ width: '100px', height: '100px', margin: '5px' }}
+                                        />
+                                    ))}
+                                </div>
                             </div>
                             <div className="form-group">
                                 <label>Restaurant Profile Image</label>
                                 <input
                                     type="file"
                                     name="profileImage"
-
                                     onChange={handleFileChange}
                                 />
+                                {imagePreviews.profileImage && (
+                                    <img
+                                        src={imagePreviews.profileImage}
+                                        alt="Profile Preview"
+                                        style={{ width: '100px', height: '100px', marginTop: '10px' }}
+                                    />
+                                )}
                             </div>
 
-                            <div className="form-group">
+                            {/* <div className="form-group">
                                 <label>Select up to 3 Cuisines</label>
                                 <div className="cuisine-container">
                                     {cuisines.map((cuisine, index) => (
@@ -354,7 +399,7 @@ const RegistrationR = () => {
                                     ))}
                                 </div>
                                 <p>Selected Cuisines: {selectedCuisines.join(", ")}</p>
-                            </div>
+                            </div> */}
 
                             <div className="form-group">
                                 <label>Restaurant Delivery Timings</label>

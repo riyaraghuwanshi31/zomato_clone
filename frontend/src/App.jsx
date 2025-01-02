@@ -9,6 +9,10 @@ import RestPage from './components/Restaurant/RestPage';
 import RegistrationR from './components/Restaurant/RegistrationR';
 import LoginR from './components/Restaurant/LoginR';
 import Dashboard from './components/Restaurant/Dashboard';
+import MenuPage from './components/Customer/MenuPage';
+import CartPage from './components/Customer/CartPage';
+import OrderStatus from './components/Customer/OrderStatus';
+import Delivered from './components/Customer/Delivered';
 
 import "./App.css";
 
@@ -28,8 +32,11 @@ const App = () => {
         <Route path='/restaurantMainPage' element={<RestPage />} />
         <Route path='/registrationR' element={<RegistrationR />} />
         <Route path='/loginR' element={<LoginR />} />
-        <Route path='/dashboard' element={<Dashboard/>} />
-        
+        <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/menu/:restaurantName' element={<MenuPage />} />
+        <Route path='/cartPage' element={<CartPage />} />
+        <Route path='/order-status' element={<OrderStatus />} />
+        <Route path='/delivered' element={<Delivered />} />
       </Routes>
     </Router>
   );

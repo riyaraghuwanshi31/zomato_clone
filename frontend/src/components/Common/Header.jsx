@@ -12,11 +12,11 @@ const Header = () => {
         <header className="headerC">
             <div className="headerUC">
                 <div className="logoC"><a>Get the App</a></div>
-                <div className="hamburgerC" onClick={toggleMenu}>
+                {/* <div className="hamburgerC" onClick={toggleMenu}>
                     <div></div>
                     <div></div>
                     <div></div>
-                </div>
+                </div> */}
                 <nav className={`nav-links ${isMenuOpen ? 'show' : ''}`}>
                     {/* <a href="#">Investor Relations</a> */}
                     <a href="/restaurantMainPage">Add Restaurant</a>
@@ -32,5 +32,4 @@ const Header = () => {
     );
 }
 
-
-export default Header;
+export default Header;  // export header 

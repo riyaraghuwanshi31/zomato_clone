@@ -6,22 +6,22 @@ import './InspirationSection.css';
 
 function TopBrands() {
   const items = [
-    { id: 1, name: 'Apna Sweets', image: '../public/images/poha.avif' },
-    { id: 2, name: `Domino's`, image: '../public/images/samosa.avif' },
-    { id: 3, name: 'McDonalds', image: '../public/images/kachori.avif' },
-    { id: 4, name: 'Nafees Restaurant', image: '../public/images/jalebi.avif' },
-    { id: 5, name: 'Burger King', image: '../public/images/sweets.avif' },
-    { id: 6, name: `Tinku's`, image: '../public/images/sandwixh.avif' },
+    { id: 1, name: `Belgian Waffle`, image: '../public/images/waffle.avif' },
+    { id: 2, name: `Domino's`, image: '../public/images/dominos_iCON.avif' },
+    { id: 3, name: 'McDonalds', image: '../public/images/MCd.avif' },
+    { id: 4, name: 'Nafees Restaurant', image: '../public/images/nafees.avif' },
+    { id: 5, name: 'Burger King', image: '../public/images/burgerKing.png' },
+    { id: 6, name: `Tinku's`, image: '../public/images/tinku.avif' },
   
-    { id: 5, name: 'KFC', image: '../public/images/idli.avif' },
-    { id: 5, name: 'Pizza Hut', image: '../public/images/tea.avif' },
+    { id: 5, name: 'KFC', image: '../public/images/kfc.avif' },
+    { id: 5, name: 'Pizza Hut', image: '../public/images/pizzahut.avif' },
     // { id: 5, name: 'Aloo Kachori', image: '../public/images/kachori.avif' },
     // { id: 5, name: 'Khaman', image: '../public/images/sandwixh.avif' },
     // { id: 5, name: 'Vada', image: '../public/images/vada.avif' },
   ];
 
   return (
-    <section className="inspiration">
+    <section className="inspiration topBrands">
       <div className="inspCont">
         <h2>Top brands for you </h2>
 

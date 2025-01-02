@@ -12,7 +12,7 @@ const Dashboard = () => {
     const restroName = location.state?.restroName;
     const [activeSection, setActiveSection] = useState('menu');
 
-    console.log(`Restraurant name: ${restroName}`); 
+    console.log(`Restraurant name: ${restroName}`);
 
     console.log(`Email is ${email}`);
 
@@ -25,8 +25,8 @@ const Dashboard = () => {
                     <p>-Restaurant partner-</p>
                 </div>
                 <div className="nav-right">
-                   
-                    
+
+
                     <img src="/images/profile.png" alt="Profile" className="profile-logo" />
                     <h4 className="restaurant-name">{restroName}</h4>
                 </div>
@@ -48,7 +48,7 @@ const Dashboard = () => {
                 <main className="main-content">
                     {activeSection === 'menu' && <DashMenu email={email} />}
                     {activeSection === 'photos' && <DashPhotos email={email} />}
-                    {activeSection === 'orders' && <DashOrder />}
+                    {activeSection === 'orders' && <DashOrder restaurantEmail={email} />}
                     {activeSection === 'profile' && <DashProfile />}
                 </main>
             </div>

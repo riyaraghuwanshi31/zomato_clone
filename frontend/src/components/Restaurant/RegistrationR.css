@@ -126,3 +126,12 @@
   color: #fff;
   border-color: #2b6cb0;
 }
+
+
+
+/* Temporary */
+.image-preview-container img {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  object-fit: cover;
+}

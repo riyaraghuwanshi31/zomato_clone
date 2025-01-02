@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const restaurantSchema = new mongoose.Schema({
     restaurantName: { type: String, required: true },
     ownerName: { type: String, required: true },
-    email: { type: String, required: true },
+    email: { type: String, required: true, match: /.+\@.+\..+/ },
     ownerMobile: { type: String, required: true },
     primaryContact: { type: String, required: true },
     address: {
@@ -16,28 +16,42 @@ const restaurantSchema = new mongoose.Schema({
     }
 });
 
-// Menu Schema
+// Menu Schema    //rukja yaar sun ni para 
 const menuSchema = new mongoose.Schema({
     email: { type: String, required: true },
-    cuisines: [{ type: String, required: true }], // Array of cuisines
+    cuisines: [{ type: String }], // Array of cuisines
 
     deliveryTimings: {
         openTime: { type: String, required: true },
         closeTime: { type: String, required: true },
     },
-    profileImage: { type: String }, // File path for profile image
-    menuImages: [{ type: String }], // Array of file paths for menu images
-    menuDetails: [{
+    profileImage: {
+        data: Buffer,
+        contentType: String,
+    }, // File path for profile image
+    menuImages: [{
+        data: Buffer,
+        contentType: String,
+    }], // Array of file paths for menu images
+    menuDetails: [{         // iski detail registration ke time ni lere ruk dekh 
         dishName: { type: String },
-        price: { type: String }
-    }]
-});
-
-// Document Schema
-const documentSchema = new mongoose.Schema({
+        price: { type: String },
+        cuisine: { type: String },
+    }] //right ha toh vesa hi hoga dashboard pr
+});                                               
+        
+//
+// Document Schema 
+const documentSchema = new mongoose.Schema({    
     email: { type: String, required: true },
-    panCard: { type: String, required: true }, // File path for PAN card
-    fssaiLicense: { type: String, required: true }, // File path for FSSAI license
+    panCard: {
+        data: Buffer, // Binary data
+        contentType: String, // MIME type 
+    },
+    fssaiLicense: {
+        data: Buffer,
+        contentType: String,
+    }, // File path for FSSAI license
     bankDetails: { type: String, required: true }, // Bank account details text
     gstNumber: { type: String }, // GST number (optional)
 });

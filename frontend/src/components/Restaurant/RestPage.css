@@ -1,6 +1,3 @@
-
-
-
 /* Header section */
 .headerR {
     display: flex;
@@ -10,11 +7,11 @@
     height: 75vh;
     background-image: url('/images/restaurantbg.jpeg');
     background-repeat: no-repeat;
-    background-size:cover;
-   
-}   
+    background-size: cover;
 
-.headContR{
+}
+
+.headContR {
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid rgb(145, 139, 139);
@@ -24,30 +21,30 @@
 
 
 
-.restHL{
+.restHL {
     display: flex;
     width: 500px;
 }
 
-.logoR{
+.logoR {
     align-items: center;
     text-align: center;
-   
+
 }
 
-.logoR img{
-   height: 30px;
+.logoR img {
+    height: 30px;
 }
 
-.logoR p{
+.logoR p {
     margin: 0;
-   padding: 0;
+    padding: 0;
     font-size: 7px;
     color: white;
 
 }
- 
-.contactR{
+
+.contactR {
     color: white;
     padding: 12px;
 }
@@ -67,21 +64,25 @@
     margin: 5px 25px;
 }
 
+.login-buttonR a{
+    text-decoration: none;
+}
+
 /* Hero section */
 .heroR {
     display: flex;
     padding: 2rem 0rem;
     background: #f9f9f900;
     text-align: center;
-    width: 100%;  
-} 
+    width: 100%;
+}
 
 .hero-contentR {
     width: 90%;
     margin: auto;
 }
 
-.hero-contentR p{
+.hero-contentR p {
     color: rgb(80, 78, 78);
 }
 
@@ -92,6 +93,11 @@
     padding: 0.6rem 5rem;
     cursor: pointer;
     border-radius: 10px;
+}
+
+.register-buttonR a{
+    color: white;
+    text-decoration: none;
 }
 
 .info-cardR {
@@ -120,36 +126,36 @@
     border: 1px solid rgb(223, 218, 218);
 }
 
-.infoContR{
+.infoContR {
     display: flex
 }
 
-.info-cardR h3{
+.info-cardR h3 {
     margin: 0;
     padding: 2px 0px;
     font-weight: 600;
     font-size: 15px;
 }
 
-.info-cardR p{
+.info-cardR p {
     font-size: 11px;
     margin: 0;
     padding: 0;
 }
 
-.info-cardR ul li{
-   list-style: none;
-   padding: 10px;
-   font-size: 15px;
+.info-cardR ul li {
+    list-style: none;
+    padding: 10px;
+    font-size: 15px;
 }
 
-.videoR{
-  height: 200px; 
-  width: 250px; 
-  border-radius: 10px;
+.videoR {
+    height: 200px;
+    width: 250px;
+    border-radius: 10px;
 }
 
-.videoR video{
+.videoR video {
     width: 250px;
     height: 140px;
     border-radius: 10px;
@@ -158,7 +164,7 @@
 
 /*Partner SECTION*/
 .why-partnerR {
-    
+
     padding: 2rem;
     background-image: url(/images/rest_bg_lower.jpeg);
     background-size: contain;
@@ -171,7 +177,7 @@
     align-items: center;
 }
 
-.why-partnerR h2{
+.why-partnerR h2 {
     text-align: center;
     color: black;
     letter-spacing: 0.5px;
@@ -179,11 +185,11 @@
     font-size: 35px;
 }
 
-.headerPSR{
+.headerPSR {
     display: flex;
 }
 
-.lineR{
+.lineR {
     height: 1px;
     width: 24%;
     background-color: rgb(192, 188, 188);
@@ -201,17 +207,118 @@
     text-align: center;
 }
 
-.featureR img{
+.featureR img {
     width: 70px;
     height: 70px;
 }
 
-.featureR h4{
+.featureR h4 {
     color: rgb(60, 60, 60);
     font-weight: 600;
 }
 
-.featureR p{
+.featureR p {
     font-size: 15px;
     color: grey;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .heroR {
+        flex-direction: column;
+        padding: 1rem;
+    }
+
+    .hero-contentR {
+        width: 100%;
+        padding: 0;
+    }
+
+    .info-cardR {
+        flex-direction: column;
+        width: 90%;
+        margin: -4rem auto 2rem;
+        top: 120px;
+    }
+
+    .infoContR {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .videoR {
+        margin-top: 1rem;
+        width: 100%;
+        height: auto;
+    }
+
+    .register-buttonR {
+        padding: 0.6rem 3rem;
+    }
+
+    .why-partnerR h2 {
+        font-size: 28px;
+    }
+
+    .headerPSR {
+        flex-direction: column;
+    }
+
+    .lineR {
+        width: 100%;
+        margin: 20px 0;
+    }
+
+    .featuresR {
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .featureR {
+        max-width: 80%;
+        margin: 10px auto;
+    }
+
+    .featureR img {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-contentR h1 {
+        font-size: 22px;
+    }
+
+    .register-buttonR {
+        width: 100%;
+        padding: 0.6rem 2rem;
+    }
+
+    .info-cardR {
+        padding: 1rem;
+        width: 100%;
+        margin: -3rem auto 1rem;
+    }
+
+    .videoR {
+        width: 100%;
+        height: auto;
+    }
+
+    
+
+    .featureR img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .featureR h4 {
+        font-size: 14px;
+    }
+
+    .featureR p {
+        font-size: 12px;
+    }
 }
