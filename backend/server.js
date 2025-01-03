@@ -49,7 +49,7 @@ app.use("/api/orders", orderRoutes);
 // Static file serving for uploads
 app.use('/uploads', express.static(path.join(__dirname, 'src', 'uploads')));
 
-const PORT = 5000;
+const PORT = process.env.port || 5000;
 
 server.listen(PORT, () => {
     console.log(`Server listening at port ${PORT}`);
