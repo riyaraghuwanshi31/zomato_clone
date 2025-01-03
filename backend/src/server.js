@@ -54,7 +54,8 @@ app.use("/api/restaurantsData", restaurantDataRouted);
 app.use("/api/orders", orderRoutes);
 
 // Static file serving for uploads
-app.use('/uploads', express.static(path.join(__dirname, 'src', 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 const PORT = 5000;
 
