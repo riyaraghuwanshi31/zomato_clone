@@ -35,7 +35,9 @@ app.use((req, res, next) => {
 });
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173"],
+     methods: ["POST", "GET", "PUT", "DELETE", "PATCH"],
+        credentials: true
 }));
 
 connectDB();
