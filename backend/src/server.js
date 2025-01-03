@@ -41,7 +41,7 @@ app.use(cors({
     
 }));
 
-connectDB;
+connectDB();
 
 app.get("/",(req,res)=>{
     res.json("Hello");
