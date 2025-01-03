@@ -42,9 +42,9 @@ app.use(cors({
 
 connectDB();
 
-app.get('/', (req, res) => {
-    res.json("Hello");
-});
+// app.get('/', (req, res) => {
+//     res.json("Hello");
+// });
 
 // Routes
 app.use('/api/auth', authRoutes); // users
